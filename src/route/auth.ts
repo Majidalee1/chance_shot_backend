@@ -1,16 +1,14 @@
 import { methodNotAllowed, notImplemented } from "boom";
 import * as compose from "koa-compose";
 import * as Router from "koa-router";
-
-import * as Ctrl from "../controller/user";
+import { insertUser, loginUser } from "../controller/auth";
 
 const router = new Router({
-  prefix: "/users",
+  prefix: "/api/v1/auth",
 });
 
-router.get("/", Ctrl.get);
-router.post("/", Ctrl.post);
-router.put("/", Ctrl.put);
+router.post("/login", loginUser);
+router.post("/signup", insertUser);
 
 const routes = router.routes();
 const allowedMethods = router.allowedMethods({
