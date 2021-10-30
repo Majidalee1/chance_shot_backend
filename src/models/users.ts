@@ -47,7 +47,7 @@ export default function (
       validFlag: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: false,
       },
       sortBy: {
         type: DataTypes.STRING,

@@ -1,17 +1,18 @@
 import { methodNotAllowed, notImplemented } from "boom";
 import * as compose from "koa-compose";
 import * as Router from "koa-router";
-
-import * as Ctrl from "../controller/user";
+import * as properties from "../controller/properties";
+import { authMiddleware } from "../middleware/auth";
 
 const router = new Router({
-  prefix: "/users",
+  prefix: "/api/v1/properties",
 });
-
-router.get("/", Ctrl.get);
-router.post("/", Ctrl.post);
-router.put("/", Ctrl.put);
-
+router.use(authMiddleware);
+router.get("/", properties.getAll);
+router.post("/create", properties.create);
+router.post("/edit", properties.edit);
+// get properties by id
+router.get("/:id", authMiddleware, properties.getById);
 const routes = router.routes();
 const allowedMethods = router.allowedMethods({
   methodNotAllowed: () => methodNotAllowed(),

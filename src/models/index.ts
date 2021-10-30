@@ -42,16 +42,18 @@ const operatorsAliases = {
   $values: Op.values,
   $col: Op.col,
 };
+console.log(process.env.MYSQL_DIALECT);
 
 const sequelize: Sequelize.Sequelize = new Sequelize({
-  dialect: "mysql",
-  host: "localhost",
-  port: 3306,
-  username: "root",
-  password: "",
-  database: "analyzere",
+  dialect: process.env.MYSQL_DIALECT || "mysql",
+  host: process.env.MYSQL_HOST || "localhost",
+  port: Number(process.env.MYSQL_PORT) || 3306,
+  username: process.env.MYSQL_USER || "root",
+  // its empty
+  password: process.env.MYSQL_PASSWORD || "",
+  database: process.env.MYSQL_DATABASE || "test",
 
-  logging: console.log,
+  logging: process.env.MYSQL_LOGGING === "true" ? console.log : false,
   // tslint:disable-next-line
   //logging: enableLogging ? // console.log : false,
 });

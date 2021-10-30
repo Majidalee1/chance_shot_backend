@@ -32,6 +32,7 @@ module.exports = {
       validFlag: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        default: false,
       },
       sortBy: {
         type: DataTypes.STRING,

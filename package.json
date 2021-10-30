@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "An opinionated boilerplate for koa v2 with typescript",
   "scripts": {
-    "start": "node  bin/server",
-    "watch": "nodemon bin/server",
+    "start": "node -r  dotenv/config bin/server dotenv_config_path=env/development",
+    "watch": "nodemon --exec npm start",
     "lint": "tslint 'src/**/*.ts'",
     "lint:fix": "tslint 'src/**/*.ts' --fix",
     "test": "jest"
@@ -18,7 +18,10 @@
     "boom": "^7.1.1",
     "convict": "^6.2.1",
     "debug": "^4.3.2",
+    "dotenv": "^10.0.0",
     "joi": "17.4.2",
+    "jsonwebtoken": "8.3.0",
+    "jwt-decode": "2.2.0",
     "koa": "^2.13.4",
     "koa-body": "^4.2.0",
     "koa-bunyan-logger": "^2.1.0",
@@ -26,6 +29,7 @@
     "koa-json": "^2.0.2",
     "koa-router": "^10.1.1",
     "mysql2": "1.6.1",
+    "node-irr": "^2.0.3",
     "sequelize": "4.38.0",
     "ts-node": "^10.3.0"
   },
@@ -41,6 +45,8 @@
     "@types/koa-json": "^2.0.20",
     "@types/koa-router": "^7.4.4",
     "@types/sequelize": "4.27.24",
+    "@types/jsonwebtoken": "7.2.8",
+    "@types/jwt-decode": "2.2.1",
     "body-parser": "^1.19.0",
     "husky": "^7.0.4",
     "jest": "^27.3.1",

@@ -1,3 +1,4 @@
+import { notFound } from "boom";
 import Boom = require("boom");
 import Joi = require("joi");
 import { Context } from "koa";
@@ -16,6 +17,9 @@ export interface IMetaData {
 const handler = async (ctx: Context, next: () => void) => {
   try {
     await next();
+    if (!ctx.state.data) {
+      throw notFound("Data not found " + ctx.request.originalUrl);
+    }
   } catch (error) {
     let metaData: IMetaData = {} as IMetaData;
 

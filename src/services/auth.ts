@@ -4,8 +4,9 @@ import { compareSync, hashSync } from "bcryptjs";
 import { IUserLogin, IUserRegister } from "../interfaces/auth";
 import { validateLogin, validateRegister } from "../schema/validations/auth";
 // import { User } from "../../models/users";
-import { isUserNameExists } from "../repositories/user";
+import { isUserNameExists, checkIfUserIsInactive } from "../repositories/user";
 import * as userRepo from "../repositories/user";
+import { IMemberInstance } from "../interfaces/models/user";
 
 export const loginUser = async (payload: IUserLogin) => {
   payload = await validateLogin?.validateAsync(payload);
@@ -18,7 +19,6 @@ export const loginUser = async (payload: IUserLogin) => {
 
   // find user by email
   const user = await userRepo.findUserByEmail(payload.email);
-  console.log("🚀 ~ file: auth.ts ~ line 22 ~ loginUser ~ user", user);
   // check if password is correct
   const verified = await compareSync(
     payload.password,
@@ -28,6 +28,7 @@ export const loginUser = async (payload: IUserLogin) => {
   if (!verified) {
     throw Boom.unauthorized("error.user.incorrect_password");
   }
+  await throwIfUserIsDisabled(user!);
 
   return user;
 };
@@ -46,4 +47,10 @@ export const insertUser = async (payload: IUserRegister) => {
   const User = await userRepo.insertUser(payload);
 
   return User;
+};
+
+export const throwIfUserIsDisabled = (user: IMemberInstance) => {
+  if (!user.dataValues.validFlag) {
+    throw Boom.forbidden("error.user.is_disabled");
+  }
 };

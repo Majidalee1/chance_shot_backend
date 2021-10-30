@@ -5,7 +5,8 @@ import * as jsonMiddleware from "koa-json";
 import conf from "./conf";
 import errorMiddleware from "./middleware/error";
 import requestMiddleware from "./middleware/request";
-import routeMiddleware from "./route";
+import routeMiddleware from "./routes";
+import responseMiddleware from "./middleware/response";
 
 import koaBody = require("koa-body");
 
@@ -16,14 +17,16 @@ const app = new Koa();
 app.use(jsonMiddleware());
 app.use(loggerMiddleware());
 app.use(requestMiddleware());
+// responseMiddleware
 app.use(errorMiddleware());
 app.use(koaBody());
 
 // Registers routes via middleware
 app.use(routeMiddleware());
+app.use(responseMiddleware());
 
 console.log("current environment: %s", conf.get("env"));
-console.log("server started at port: %d", conf.get("port"));
-// Database.sync({ force: true });
-// db.sequelize.sync({ force: true });
-app.listen(4000);
+console.log("server started at port: %d", process.env.API_PORT || 4000);
+
+const port = process.env.API_PORT || 4000;
+app.listen(port);

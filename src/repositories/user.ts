@@ -17,3 +17,13 @@ export const insertUser = async (payload: IUserRegister) => {
 export const findUserByEmail = async (email: string) => {
   return Member.find({ where: { email } });
 };
+
+// checkIfUserIsInactive
+export const checkIfUserIsInactive = async (email: string) => {
+  return !!Member.find({ where: { email, isActive: false } });
+};
+
+// findUserById
+export const findUserById = async (id: number) => {
+  return Member.findById(id);
+};
