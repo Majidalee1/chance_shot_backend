@@ -9,3 +9,15 @@ export interface IUserRegister {
   email: string;
   password: string;
 }
+
+// IForgot password
+export interface IForgotPassword {
+  email: string;
+}
+
+// verify code
+export interface IVerifyCode {
+  email: string;
+  code: string;
+  password?: string;
+}

@@ -12,3 +12,15 @@ export const validateRegister = Joi.object().keys({
   email: Joi.string().email().required().label("Email"),
   password: Joi.string().required().label("Password"),
 });
+
+// forgot password
+export const validateForgotPassword = Joi.object().keys({
+  email: Joi.string().email().required().label("Email"),
+});
+
+// verify Code
+export const validateVerifyCode = Joi.object().keys({
+  email: Joi.string().email().required().label("Email"),
+  code: Joi.string().required().label("Code"),
+  password: Joi.string().optional().label("Password"),
+});

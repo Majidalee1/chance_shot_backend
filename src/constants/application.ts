@@ -20,3 +20,8 @@ export const USER_SEARCH_PREFERENCES = [
   "eqMult",
   "rentMult",
 ];
+
+export enum Verification {
+  FORGOT_VERIFICATION_CODE = "forgot",
+  AUTHORIZE_VERIFICATION_CODE = "authorize",
+}
