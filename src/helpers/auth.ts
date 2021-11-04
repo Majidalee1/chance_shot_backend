@@ -11,6 +11,7 @@ import * as verificationCodeRepo from "../repositories/verficationCode";
 import { Verification } from "../constants/application";
 import * as moment from "moment";
 import { removeVerificationCode } from "../repositories/verficationCode";
+import { setParams, sendEmail } from "../services/mail";
 
 export type IAccessTokenAttr = {
   userId: number;
@@ -44,6 +45,16 @@ export const generateAccessToken = async (payload: IMemberAttributes) => {
 export const createAndSendResetEmail = async (email: string, type: string) => {
   const code = generateVerificationCode();
   await verificationCodeRepo.removeVerificationCodeByParams({ email, type });
+  const html = `
+    <div>
+      <h4>Your verification code for analyzere application is.</h4>
+      <h4>${code}</h4>
+    <div>
+
+  `;
+  const subject = "Analyzere Verification Code";
+  const params = setParams(email, html, subject);
+  await sendEmail(params);
   return await verificationCodeRepo.insertVerificationCode({
     email: email,
     code,
@@ -61,3 +72,12 @@ export const generateResetToken = async () => {
 // generate 6 digit random numbers
 const generateVerificationCode = () =>
   (Math.floor(Math.random() * 1000000) + 1000000).toString().substring(1);
+
+export const setEmptyToNull = (payload: any) => {
+  Object.keys(payload).forEach((key) => {
+    if (payload[key] === 0 || payload[key] === "") {
+      payload[key] = null;
+    }
+  });
+  return payload;
+};

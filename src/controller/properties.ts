@@ -45,21 +45,23 @@ export const create = async (ctx: Context, next: () => void) => {
 // edit
 export const edit = async (ctx: Context, next: () => void) => {
   // implement interface IPropertyUpdate
-  const payload: IPropertyUpdate = {
-    propertyId: ctx.request.body.propertyId,
-    price: ctx.request.body.price,
-    closing: ctx.request.body.closing,
-    interest: ctx.request.body.interest,
-    term: ctx.request.body.term,
-    down: ctx.request.body.down,
-    points: ctx.request.body.points,
-    rent: ctx.request.body.rent,
-    taxes: ctx.request.body.taxes,
-    insurance: ctx.request.body.insurance,
-    repairs: ctx.request.body.repairs,
-    hoa: ctx.request.body.hoa,
-    capExp: ctx.request.body.capExp,
-  };
+  // const payload: IPropertyUpdate = {
+  //   propertyId: ctx.request.body.propertyId,
+  //   price: ctx.request.body.price,
+  //   closing: ctx.request.body.closing,
+  //   interest: ctx.request.body.interest,
+  //   term: ctx.request.body.term,
+  //   down: ctx.request.body.down,
+  //   points: ctx.request.body.points,
+  //   rent: ctx.request.body.rent,
+  //   taxes: ctx.request.body.taxes,
+  //   insurance: ctx.request.body.insurance,
+  //   repairs: ctx.request.body.repairs,
+  //   hoa: ctx.request.body.hoa,
+  //   capExp: ctx.request.body.capExp,
+  // };
+
+  const payload = ctx.request.body;
 
   ctx.state.data = await propertyService.update(payload);
   next();

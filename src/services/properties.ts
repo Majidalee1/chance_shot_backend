@@ -6,6 +6,7 @@ import {
 import { propertyCreationMapper } from "../helpers/property-mapper";
 import * as propertyRepo from "../repositories/properties";
 import { IPropertyAttributes } from "../interfaces/models/properties";
+import { setEmptyToNull } from "../helpers/auth";
 
 // arrow function create with return type of promise
 export const create = async (payload: IPropertyCreate) => {
@@ -22,6 +23,8 @@ export const getAll = async (payload: IPropertyGet) => {
 // update
 
 export const update = async (payload: IPropertyUpdate) => {
+  payload = setEmptyToNull(payload);
+  console.log("🚀 ~ file: properties.ts ~ line 27 ~ update ~ payload", payload);
   // handle validation
   const popertyId = payload.propertyId;
   delete payload.propertyId;

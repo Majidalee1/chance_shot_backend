@@ -134,5 +134,11 @@ export default function (
       timestamps: false,
     }
   );
+
+  User.beforeUpdate(async (user, options) => {
+    console.log(options);
+    // user.sortBy = user.listOrder;
+    console.log(user);
+  });
   return User;
 }
