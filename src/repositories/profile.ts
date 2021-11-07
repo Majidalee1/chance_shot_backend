@@ -13,5 +13,8 @@ export const editProfile = async (
   id: number,
   payload: Partial<IMemberAttributes>
 ) => {
+  if (payload.listOrder) {
+    payload.sortBy = payload.listOrder;
+  }
   return Member.update(payload, { where: { id } });
 };

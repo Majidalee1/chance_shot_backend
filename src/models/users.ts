@@ -47,7 +47,7 @@ export default function (
       validFlag: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: false,
       },
       sortBy: {
         type: DataTypes.STRING,
@@ -130,15 +130,19 @@ export default function (
         defaultValue: DataTypes.NOW,
       },
     },
+
     {
       timestamps: false,
+
+      hooks: {
+        beforeUpdate: (user: IMemberInstance, options: any) => {
+          console.log("🚀 ~ file: users.ts ~ line 137 ~ options", options);
+          console.log("🚀 ~ file: users.ts ~ line 137 ~ user", user);
+          console.log("beforeUpdate");
+        },
+      },
     }
   );
 
-  User.beforeUpdate(async (user, options) => {
-    console.log(options);
-    // user.sortBy = user.listOrder;
-    console.log(user);
-  });
   return User;
 }

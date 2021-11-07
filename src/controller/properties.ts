@@ -12,24 +12,23 @@ import { USER_SEARCH_PREFERENCES } from "../constants/application";
 // create propeties
 
 export const create = async (ctx: Context, next: () => void) => {
-  const User = await findUserById(ctx.request.body.memberId);
-
-  if (!User) {
-    throw new Error("Invalid MemberId");
+  const userAttribs: IMemberAttributes = ctx.state.user;
+  if (!userAttribs) {
+    Boom.badRequest("user doesn't exists");
   }
 
   const payload: IPropertyCreate = {
-    memberId: ctx.request.body.memberId,
+    memberId: userAttribs.id!,
     address: ctx.request.body.address,
     city: ctx.request.body.city,
     state: ctx.request.body.state,
     zip: ctx.request.body.zip,
     price: ctx.request.body.price,
     closing: ctx.request.body.closing,
-    interest: ctx.request.body.interest,
-    term: ctx.request.body.term,
-    down: ctx.request.body.down,
-    points: ctx.request.body.points,
+    interest: userAttribs.intRate!,
+    term: userAttribs.loanTerm!,
+    down: userAttribs.down!,
+    points: userAttribs.points!,
     rent: ctx.request.body.rent,
     taxes: ctx.request.body.taxes,
     insurance: ctx.request.body.insurance,

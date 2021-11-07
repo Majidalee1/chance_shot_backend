@@ -7,9 +7,11 @@ import { propertyCreationMapper } from "../helpers/property-mapper";
 import * as propertyRepo from "../repositories/properties";
 import { IPropertyAttributes } from "../interfaces/models/properties";
 import { setEmptyToNull } from "../helpers/auth";
+import { validatePropertyCreate } from "../schema/validations/properties";
 
 // arrow function create with return type of promise
 export const create = async (payload: IPropertyCreate) => {
+  payload = await validatePropertyCreate.validateAsync(payload);
   const formatedPayload = propertyCreationMapper(payload);
   return await propertyRepo.createProperty(formatedPayload);
   //   return formatedPayload;

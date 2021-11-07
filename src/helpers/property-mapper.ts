@@ -22,7 +22,7 @@ const roundAll = (obj: any) => {
 // convert the null values in a given object to 0
 const nullToZero = (obj: any) => {
   for (const key in obj) {
-    if (obj.hasOwnProperty(key) && obj[key] === null) {
+    if (obj.hasOwnProperty(key) && !obj[key]) {
       obj[key] = 0;
     }
   }

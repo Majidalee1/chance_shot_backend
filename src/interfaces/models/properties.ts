@@ -1,7 +1,7 @@
 import { Instance } from "sequelize";
 
 export interface IPropertyAttributes {
-  memberid: number;
+  memberId: number;
   propertyId: number;
   address: string;
   city: string;

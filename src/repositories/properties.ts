@@ -8,8 +8,21 @@ import {
 import { IPropertyAttributes } from "../interfaces/models/properties";
 
 const Property = Models.property;
+const User = Models.user;
 // create property
 export const createProperty = async (data: IPropertyAttributes) => {
+  const propertyCount = await Property.count({
+    where: { memberId: data.memberId },
+  });
+  // check if user is subscribed
+  const UserSubscription = await User.findOne({
+    attributes: ["subscribed"],
+    where: { id: data.memberId },
+  }).then((userSubscription) => !!userSubscription?.dataValues.subscribed);
+
+  if (!UserSubscription && propertyCount >= 3) {
+    throw new Error("You can only have 3 properties");
+  }
   const property = Property.create(data);
   return property;
 };
@@ -19,7 +32,7 @@ export const getAllProperties = async (payload: IPropertyGet) => {
   const where = {
     memberId: payload.memberId,
   };
-  return Property.findAll({
+  return Property.findAndCountAll({
     where,
     order: [payload.sortBy],
   });
