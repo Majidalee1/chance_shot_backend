@@ -13,6 +13,6 @@ export const editProfile = async (
 ) => {
   payload = setEmptyToNull(payload);
   delete payload?.id;
-  delete payload?.password;
+  // delete payload?.password;
   return await profileRepo.editProfile(id, payload);
 };
