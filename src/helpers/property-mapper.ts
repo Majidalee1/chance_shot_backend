@@ -48,10 +48,6 @@ export const propertyCreationMapper = (
   );
 
   const mortgage = calculateMortgage(principal, months, i, mortgageMonth);
-  console.log(
-    "🚀 ~ file: property-mapper.ts ~ line 31 ~ propertyCreationMapper ~ mortgage",
-    mortgage
-  );
 
   const noi =
     payload.rent * 12 -
@@ -118,14 +114,6 @@ export const calculateMortgage = (
   i: number,
   mortgageMonth: number
 ) => {
-  console.log(
-    "🚀 ~ file: property-mapper.ts ~ line 99 ~  principal: number",
-    principal,
-    i,
-    mortgageMonth,
-    months
-  );
-
   // let $m = 0;
 
   let balance = principal;
@@ -173,4 +161,115 @@ export const calculateMortgage = (
   return roundAll(data);
 };
 
-//
+export const cumilativeNetCashFlow = (payload: IPropertyAttributes) => {
+  const $time = 30;
+  // $rate = 3;
+  const $rate = 3;
+  // $n = 1;
+  let $n = 1;
+  // $expenses = $taxes + $insurance + $maint + $hoa;
+  const expenses =
+    payload.taxes + payload.insurance + payload.maint + payload.hoa;
+
+  let $next_rent = 0;
+  let $next_exps = 0;
+  let $next_cash = 0;
+  let $cum_cash = 0;
+
+  let $cumcash01 = 0;
+  let $cumcash05 = 0;
+  let $cumcash10 = 0;
+  let $cumcash15 = 0;
+  let $cumcash20 = 0;
+  let $cumcash25 = 0;
+  let $cumcash30 = 0;
+
+  for ($n = 1; $n <= $time; $n++) {
+    if ($n == 1) {
+      $next_rent = payload.rent;
+      $next_exps = expenses;
+    } else {
+      $next_rent = $next_rent * (1 + $rate / 100);
+      $next_exps = $next_exps * (1 + $rate / 100);
+    }
+
+    $next_cash = ($next_rent - $next_exps - payload.mortgageMonth) * 12;
+    $cum_cash = $cum_cash + $next_cash;
+
+    if ($n == 1) {
+      $cumcash01 = $cum_cash;
+    } else if ($n == 5) {
+      $cumcash05 = $cum_cash;
+    } else if ($n == 10) {
+      $cumcash10 = $cum_cash;
+    } else if ($n == 15) {
+      $cumcash15 = $cum_cash;
+    } else if ($n == 20) {
+      $cumcash20 = $cum_cash;
+    } else if ($n == 25) {
+      $cumcash25 = $cum_cash;
+    } else if ($n == 30) {
+      $cumcash30 = $cum_cash;
+    } else {
+      //nothing
+    }
+  }
+
+  return nullToZero({
+    $cum_cash,
+    $cumcash01,
+    $cumcash05,
+    $cumcash10,
+    $cumcash15,
+    $cumcash20,
+    $cumcash25,
+    $cumcash30,
+  });
+  //console
+};
+
+export const cumilativeAppreciation = (payload: IPropertyAttributes) => {
+  let $apprec01 = 0;
+  let $apprec05 = 0;
+  let $apprec10 = 0;
+  let $apprec15 = 0;
+  let $apprec20 = 0;
+  let $apprec25 = 0;
+  let $apprec30 = 0;
+
+  let $time = 30;
+  let $rate = 3;
+  let $n = 1;
+  for ($n = 1; $n <= $time; $n++) {
+    let $next_appr =
+      payload.price * Math.pow(1 + $rate / 100, $n) - payload.price;
+
+    if ($n == 1) {
+      $apprec01 = $next_appr;
+    } else if ($n == 5) {
+      $apprec05 = $next_appr;
+    } else if ($n == 10) {
+      $apprec10 = $next_appr;
+    } else if ($n == 15) {
+      $apprec15 = $next_appr;
+    } else if ($n == 20) {
+      $apprec20 = $next_appr;
+    } else if ($n == 25) {
+      $apprec25 = $next_appr;
+    } else if ($n == 30) {
+      $apprec30 = $next_appr;
+    } else {
+      //nothing
+    }
+  }
+
+  return nullToZero({
+    $apprec01,
+    $apprec05,
+    $apprec10,
+    $apprec15,
+    $apprec20,
+    $apprec25,
+    $apprec30,
+  });
+};
