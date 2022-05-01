@@ -1,12 +1,12 @@
-import * as Boom from "boom";
 import { compareSync, hashSync } from "bcryptjs";
-import * as verificationCodeRepo from "../repositories/verficationCode";
+import * as Boom from "boom";
 import * as profileRepo from "../repositories/profile";
+import * as verificationCodeRepo from "../repositories/verficationCode";
 
 import {
+  IForgotPassword,
   IUserLogin,
   IUserRegister,
-  IForgotPassword,
   IVerifyCode,
 } from "../interfaces/auth";
 import {
@@ -15,13 +15,13 @@ import {
   validateRegister,
 } from "../schema/validations/auth";
 // import { User } from "../../models/users";
-import { isUserNameExists, checkIfUserIsInactive } from "../repositories/user";
-import * as userRepo from "../repositories/user";
-import { IMemberInstance } from "../interfaces/models/user";
-import { createAndSendResetEmail } from "../helpers/auth";
 import { Verification } from "../constants/application";
+import { createAndSendResetEmail } from "../helpers/auth";
+
+import * as userRepo from "../repositories/user";
+import { isUserNameExists } from "../repositories/user";
 import { validateVerifyCode } from "../schema/validations/auth";
-import { editProfile } from "../controller/profile";
+import { IUserAttributes, IUserInstance } from "../interfaces/models/user";
 
 export const loginUser = async (payload: IUserLogin) => {
   payload = await validateLogin?.validateAsync(payload);
@@ -49,8 +49,11 @@ export const loginUser = async (payload: IUserLogin) => {
 };
 
 // insertUser
+
 export const insertUser = async (payload: IUserRegister) => {
   payload = await validateRegister.validateAsync(payload);
+  // const role = payload.role || "user";
+  // delete payload.role;
 
   // check if user exists
   const checkIfUserExists = await isUserNameExists(payload.email);
@@ -59,9 +62,12 @@ export const insertUser = async (payload: IUserRegister) => {
   }
   payload.password = await hashSync(payload.password, 10);
   // insert user into database
-  const User = await userRepo.insertUser(payload);
+  const User = await userRepo.insertUser(
+    payload as IUserAttributes,
+    payload.role
+  );
 
-  return User;
+  return User.dataValues;
 };
 
 // forgotPassword;
@@ -114,9 +120,9 @@ export const verify = async (payload: IVerifyCode) => {
 
 // activateUserAfterActivation
 
-export const throwIfUserIsDisabled = (user: IMemberInstance) => {
+export const throwIfUserIsDisabled = (user: IUserInstance) => {
   const User = user.dataValues;
-  if (!User.validFlag) {
+  if (!User.isActive) {
     createAndSendResetEmail(
       User.email,
       Verification.AUTHORIZE_VERIFICATION_CODE
@@ -134,7 +140,7 @@ export const activateUserAfterActivation = async (payload: {
   }
   const user = await userRepo.findUserByEmail(payload.email);
   await profileRepo.editProfile(user?.dataValues.id!, {
-    validFlag: "1",
+    isProfileCompleted: true,
   });
   return {
     type: Verification.AUTHORIZE_VERIFICATION_CODE,

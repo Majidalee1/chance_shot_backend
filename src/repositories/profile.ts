@@ -1,20 +1,17 @@
-import { IMemberAttributes } from "../interfaces/models/user";
+import { IUserAttributes } from "../interfaces/models/user";
 import { Models } from "../models/index";
 // getProfile
 
 const Member = Models.user;
 
-export const getProfile = async (payload: IMemberAttributes) => {
+export const getProfile = async (payload: IUserAttributes) => {
   return Member.findById(payload.id);
 };
 
 // editProfilebyId
 export const editProfile = async (
-  id: number,
-  payload: Partial<IMemberAttributes>
+  id: string,
+  payload: Partial<IUserAttributes>
 ) => {
-  if (payload.listOrder) {
-    payload.sortBy = payload.listOrder;
-  }
   return Member.update(payload, { where: { id } });
 };

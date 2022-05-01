@@ -1,14 +1,13 @@
 import { Context } from "koa";
 import {
+  IForgotPassword,
   IUserLogin,
   IUserRegister,
-  IForgotPassword,
   IVerifyCode,
 } from "../interfaces/auth";
 // import as authService
-import * as authService from "../services/auth";
-import { IMemberAttributes } from "../interfaces/models/user";
 import { generateAccessToken } from "../helpers/auth";
+import * as authService from "../services/auth";
 
 //  login user from repositories
 export const loginUser = async (ctx: Context, next: () => void) => {
@@ -25,16 +24,20 @@ export const loginUser = async (ctx: Context, next: () => void) => {
 
 export const insertUser = async (ctx: Context, next: () => void) => {
   // cretate payload object type IUserRegister
-  console.log(ctx.request.body);
 
   const payload: IUserRegister = {
     firstName: ctx.request.body.firstName,
     lastName: ctx.request.body.lastName,
     email: ctx.request.body.email,
+    phone: ctx.request.body.phone,
     password: ctx.request.body.password,
+    role: ctx.request.body.role || "user",
+    isActive: true,
   };
 
-  ctx.state.data = await authService.insertUser(payload);
+  const { password, ...response } = await authService.insertUser(payload);
+
+  ctx.state.data = response;
   next();
 };
 

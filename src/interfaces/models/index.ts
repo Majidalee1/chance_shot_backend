@@ -1,16 +1,17 @@
 import * as Sequelize from "sequelize";
-import { IMemberInstance, IMemberAttributes } from "./user";
-import { IPropertyAttributes, IPropertyInstance } from "./properties";
+import { IUserRoleAttributes, IUserRoleInstance } from "../../models/userRoles";
+import { IUserAttributes, IUserInstance } from "./user";
+
 import {
-  IVerificationCodeInstance,
   IVerificationCodeAttributes,
+  IVerificationCodeInstance,
 } from "./verificationCode";
 
 export interface IModelFactory extends Sequelize.Models {
-  user: Sequelize.Model<IMemberInstance, IMemberAttributes>;
-  property: Sequelize.Model<IPropertyInstance, IPropertyAttributes>;
+  user: Sequelize.Model<IUserInstance, IUserAttributes>;
   verificationCode: Sequelize.Model<
     IVerificationCodeInstance,
     IVerificationCodeAttributes
   >;
+  userRole: Sequelize.Model<IUserRoleInstance, IUserRoleAttributes>;
 }

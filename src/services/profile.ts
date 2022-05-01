@@ -1,16 +1,16 @@
-import { IMemberAttributes } from "../interfaces/models/user";
-import * as profileRepo from "../repositories/profile";
-import { setEmptyToNull } from "../helpers/auth";
 import { hashSync } from "bcryptjs";
+import { setEmptyToNull } from "../helpers/auth";
+import { IUserAttributes } from "../interfaces/models/user";
+import * as profileRepo from "../repositories/profile";
 // getprofile
-export const getProfile = async (payload: IMemberAttributes) => {
+export const getProfile = async (payload: IUserAttributes) => {
   return await profileRepo.getProfile(payload);
 };
 
 // editProfile;
 export const editProfile = async (
-  id: number,
-  payload: Partial<IMemberAttributes>
+  id: string,
+  payload: Partial<IUserAttributes>
 ) => {
   payload = setEmptyToNull(payload);
   delete payload?.id;

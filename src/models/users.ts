@@ -1,148 +1,82 @@
 // define a sequelize model for users
 import * as Sequelize from "sequelize";
-import { IMemberAttributes, IMemberInstance } from "../interfaces/models/user";
 import { DataTypes } from "sequelize";
+import { IUserAttributes, IUserInstance } from "../interfaces/models/user";
 
 const DataTypes = Sequelize;
 
-/**
- * Defining main sequelize function for binding on the model index
- *
- * @param {Sequelize.Sequelize} sequelize
- * @returns
- */
 export default function (
   sequelize: Sequelize.Sequelize
-): Sequelize.Model<IMemberInstance, IMemberAttributes> {
-  const User = sequelize.define<IMemberInstance, IMemberAttributes>(
-    "user",
-    {
-      //   implement attributes here
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      subscribed: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
-      validFlag: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
-      sortBy: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "1",
-      },
-      listOrder: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "1",
-      },
-      intRate: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0.04,
-      },
-      loanTerm: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 30,
-      },
-      down: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0.2,
-      },
-      points: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0.0,
-      },
-      minCashFlow: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 250,
-      },
-      minCapRate: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0.08,
-      },
-      minCoc: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0.08,
-      },
-      minRoi: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0.2,
-      },
-      minNoi: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 10000,
-      },
-      minIrr: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 0.15,
-      },
-      minEqMult: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 1.5,
-      },
-      minRentMult: {
-        type: DataTypes.DECIMAL,
-        allowNull: false,
-        defaultValue: 1.5,
-      },
-      createDate: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-      },
-      lastModified: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-      },
+): Sequelize.Model<IUserInstance, IUserAttributes> {
+  const User = sequelize.define<IUserInstance, IUserAttributes>("user", {
+    id: {
+      type: DataTypes.UUIDV4,
+      autoIncrement: true,
+      primaryKey: true,
     },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    // phone,roleId,country,city,address,idOrPassportNumber,isProfileCompleted,isActive,
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    idOrPassportNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    isProfileCompleted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+  });
 
-    {
-      timestamps: false,
-
-      hooks: {
-        beforeUpdate: (user: IMemberInstance, options: any) => {
-          console.log("🚀 ~ file: users.ts ~ line 137 ~ options", options);
-          console.log("🚀 ~ file: users.ts ~ line 137 ~ user", user);
-          console.log("beforeUpdate");
-        },
-      },
-    }
-  );
+  User.associate = (models) => {
+    User.hasMany(models.userRole, {
+      foreignKey: "userId",
+      as: "userRole",
+    });
+  };
 
   return User;
 }

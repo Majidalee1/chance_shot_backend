@@ -29,4 +29,4 @@ console.log("current environment: %s", conf.get("env"));
 console.log("server started at port: %d", process.env.API_PORT || 4000);
 
 const port = process.env.API_PORT || 4000;
-app.listen(5000);
+app.listen(port);

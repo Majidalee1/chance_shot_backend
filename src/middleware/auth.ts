@@ -2,7 +2,7 @@ import { forbidden } from "boom";
 import { Context } from "koa";
 import { IAccessTokenAttr, validateLocalToken } from "../helpers/auth";
 import { findUserById } from "../repositories/user";
-import { IMemberAttributes } from "../interfaces/models/user";
+import { IUserAttributes } from "../interfaces/models/user";
 import * as Boom from "boom";
 
 export const authMiddleware = async (ctx: Context, next: () => void) => {
@@ -29,7 +29,7 @@ export const authMiddleware = async (ctx: Context, next: () => void) => {
   // user || Boom.badRequest("error.user.does_not_exists");
 
   ctx.state.user = {
-    ...(user?.dataValues as IMemberAttributes),
+    ...(user?.dataValues as IUserAttributes),
   };
   await next();
 };

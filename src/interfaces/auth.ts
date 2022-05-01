@@ -6,8 +6,11 @@ export interface IUserLogin {
 export interface IUserRegister {
   firstName: string;
   lastName: string;
+  phone?: string;
   email: string;
   password: string;
+  isActive: boolean;
+  role?: string;
 }
 
 // IForgot password

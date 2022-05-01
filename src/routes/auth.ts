@@ -13,6 +13,12 @@ const router = new Router({
   prefix: "/api/v1/auth",
 });
 
+router.get("/", async (ctx, next: () => void) => {
+  console.log("hemlo g");
+  ctx.state.data = { message: "Welcome to the auth api" };
+  next();
+});
+
 router.post("/login", loginUser);
 router.post("/signup", insertUser);
 

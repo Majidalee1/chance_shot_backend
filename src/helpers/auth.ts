@@ -5,7 +5,7 @@ import {
   JWT_TOKEN_EXPIRATION,
   JWT_ISSUER,
 } from "../constants/application";
-import { IMemberAttributes } from "../interfaces/models/user";
+import { IUserAttributes } from "../interfaces/models/user";
 import * as crypto from "crypto";
 import * as verificationCodeRepo from "../repositories/verficationCode";
 import { Verification } from "../constants/application";
@@ -14,7 +14,7 @@ import { removeVerificationCode } from "../repositories/verficationCode";
 import { setParams, sendEmail } from "../services/mail";
 
 export type IAccessTokenAttr = {
-  userId: number;
+  userId: string;
   email: string;
   userName: string;
 };
@@ -28,7 +28,7 @@ export const validateLocalToken = async (token: string) => {
   return decodedJwt.payload;
 };
 
-export const generateAccessToken = async (payload: IMemberAttributes) => {
+export const generateAccessToken = async (payload: IUserAttributes) => {
   const user: IAccessTokenAttr = {
     userId: payload.id!,
     email: payload.email,
