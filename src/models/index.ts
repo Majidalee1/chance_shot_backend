@@ -42,7 +42,6 @@ const operatorsAliases = {
   $values: Op.values,
   $col: Op.col,
 };
-console.log(process.env.MYSQL_DIALECT);
 
 const sequelize: Sequelize.Sequelize = new Sequelize({
   dialect: process.env.MYSQL_DIALECT || "mysql",

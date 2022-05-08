@@ -1,3 +1,3 @@
 import { Payload } from "boom";
 
-export type of<T> = Partial<T>;
+export type of<T> = Partial<Omit<T, "id">>;

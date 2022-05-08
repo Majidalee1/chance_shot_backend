@@ -8,8 +8,9 @@ export type IUserRoleAttributes = {
   role: string;
 } & Sequelize.DefineAttributes;
 
-export type IUserRoleInstance = Sequelize.Instance<IUserRoleAttributes> &
-  IUserRoleAttributes;
+export type IUserRoleInstance = Sequelize.Instance<IUserRoleAttributes> & {
+  dataValues: IUserRoleAttributes;
+};
 
 export type IUserRole = of<IUserRoleAttributes>;
 

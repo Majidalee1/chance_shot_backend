@@ -6,7 +6,7 @@
     "start": "node -r  dotenv/config bin/server dotenv_config_path=env/development",
     "pre-migrate": "sequelize db:create",
     "migrate": "sequelize db:migrate",
-    "watch": "nodemon --exec npm start",
+    "watch": "nodemon --inspect --exec npm start",
     "lint": "tslint 'src/**/*.ts'",
     "lint:fix": "tslint 'src/**/*.ts' --fix",
     "test": "jest"
