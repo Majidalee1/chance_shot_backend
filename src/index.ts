@@ -28,5 +28,6 @@ app.use(responseMiddleware());
 console.log("current environment: %s", conf.get("env"));
 console.log("server started at port: %d", process.env.API_PORT || 4000);
 
-const port = process.env.API_PORT || 4000;
-app.listen(port);
+const port = process.env.PORT || 80;
+
+app.listen(port, () => console.log(`listening on port ${port}`));
