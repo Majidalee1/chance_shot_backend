@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "An opinionated boilerplate for koa v2 with typescript",
   "scripts": {
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
     "start": "node -r  dotenv/config bin/server dotenv_config_path=env/development",
     "pre-migrate": "sequelize db:create",
     "migrate": "sequelize db:migrate",
@@ -68,6 +69,9 @@
       "pre-commit": "lint-staged",
       "pre-push": "npm run test"
     }
+  },
+  "engines": {
+    "node": "14.x"
   },
   "lint-staged": {
     "src/**/*.ts": [
