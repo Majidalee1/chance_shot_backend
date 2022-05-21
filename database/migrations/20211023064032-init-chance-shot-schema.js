@@ -201,11 +201,11 @@ const createTableDrawInfo = (queryInterface) => {
       allowNull: true,
     },
     longitude: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     latitude: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     createdAt: {
