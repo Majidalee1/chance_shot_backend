@@ -29,3 +29,8 @@ export const deleteDraw = async (id: number) =>
 
 export const updateDrawInfo = async (payload: IDrawInfo, drawId: number) =>
   DrawInfo.update(payload, { where: { drawId } });
+
+export const decrementTicketsAvaliable = async (
+  drawId: number,
+  by: number = 1
+) => Draws.decrement({ ticketsAvaliable: by }, { where: { id: drawId } });

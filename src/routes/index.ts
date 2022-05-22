@@ -5,4 +5,5 @@ import * as Router from "koa-router";
 import auth from "./auth";
 import profile from "./profile";
 import draws from "./draws";
-export default () => compose([auth(), profile(), draws()]);
+import drawEntries from "./draw-entries";
+export default () => compose([auth(), profile(), draws(), drawEntries()]);

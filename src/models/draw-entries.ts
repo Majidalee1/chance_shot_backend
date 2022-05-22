@@ -19,7 +19,9 @@ export type drawEntriesModel = Sequelize.Model<
   IdrawEntriesAttributes
 >;
 
-export type IDrawEntry = of<IdrawEntriesAttributes>;
+export type IDrawEntry = of<IdrawEntriesAttributes> & {
+  entriesCount?: number;
+};
 
 // type Partial<T> = { [P in keyof T]?: T[P] | undefined; }
 
@@ -39,6 +41,10 @@ export default function (sequelize: Sequelize.Sequelize): drawEntriesModel {
     drawId: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      references: {
+        model: "draws",
+        key: "id",
+      },
     },
     userId: {
       type: Sequelize.STRING,
@@ -47,9 +53,11 @@ export default function (sequelize: Sequelize.Sequelize): drawEntriesModel {
     entryCode: {
       type: Sequelize.STRING,
       allowNull: false,
+      unique: true,
     },
     entryStatus: {
       type: Sequelize.STRING,
+      defaultValue: "pending",
       allowNull: false,
     },
     createdAt: {

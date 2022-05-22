@@ -11,6 +11,13 @@ import { IDrawInfoInstance, IDrawInfo } from "../../models/draw-Info";
 import { IDrawEntry, drawEntriesInstance } from "../../models/draw-entries";
 import { IDrawType, IDrawTypeInstance } from "../../models/draw-types";
 
+declare module "sequelize" {
+  interface Model<TInstance, TAttributes> {
+    increment(fields: any, options: any): Promise<TInstance>;
+    decrement(fields: any, options: any): Promise<TInstance>;
+  }
+}
+
 export interface IModelFactory extends Sequelize.Models {
   user: Sequelize.Model<IUserInstance, IUserAttributes>;
   verificationCode: Sequelize.Model<
