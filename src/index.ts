@@ -10,6 +10,7 @@ import * as cors from "@koa/cors";
 import koaBody = require("koa-body");
 
 const app = new Koa();
+app.use(cors());
 // const d = debug("kickstarter:root");
 
 // Register middleware
@@ -19,7 +20,6 @@ app.use(requestMiddleware());
 // responseMiddleware
 app.use(errorMiddleware());
 app.use(koaBody());
-app.use(cors({ origin: "*" }));
 
 // Registers routes via middleware
 app.use(routeMiddleware());
