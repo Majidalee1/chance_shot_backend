@@ -43,3 +43,9 @@ export const updateDraw = async (payload: IDraw, id: number) => {
   infoUpdate && (await drawRepo.updateDrawInfo(infoUpdate, id));
   return drawRepo.updateDraw(payload, id);
 };
+
+// getDrawsByStatus;
+export const getDrawsByStatus = async (status: string) => {
+  const draws = await drawRepo.getDrawsByStatus(status);
+  return draws;
+};

@@ -34,3 +34,12 @@ export const decrementTicketsAvaliable = async (
   drawId: number,
   by: number = 1
 ) => Draws.decrement({ ticketsAvaliable: by }, { where: { id: drawId } });
+
+// getDrawsByStatus;
+export const getDrawsByStatus = async (status: string) => {
+  const draws = await Draws.findAll({
+    where: { status },
+    include: [{ model: DrawInfo, as: "drawInfo" }],
+  });
+  return draws;
+};

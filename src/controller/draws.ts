@@ -61,6 +61,13 @@ export const updateDraw = async (ctx: Context, next: () => void) => {
   next();
 };
 
+// getDrawsByStatus
+export const getDrawsByStatus = async (ctx: Context, next: () => void) => {
+  const status = ctx.params.status || "active";
+  ctx.state.data = await drawService.getDrawsByStatus(status);
+  next();
+};
+
 export const deleteDraw = async (ctx: Context, next: () => void) => {
   ctx.state.data = { message: "Welcome to delete Draw" };
   next();

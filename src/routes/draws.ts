@@ -8,6 +8,7 @@ import {
   deleteDraw,
   getUserDraws,
   getUserDrawsById,
+  getDrawsByStatus,
 } from "../controller/draws";
 
 const router = new Router({
@@ -20,6 +21,7 @@ router.post("/", createDraw);
 router.put("/:id", updateDraw);
 router.delete("/:id", deleteDraw);
 
+router.get("/status/:status", getDrawsByStatus);
 // get user draws
 // get all user draws
 router.get("/mine", getUserDraws);
