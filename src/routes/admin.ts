@@ -1,21 +1,16 @@
 import { methodNotAllowed, notImplemented } from "boom";
 import * as compose from "koa-compose";
 import * as Router from "koa-router";
-
 import * as profile from "../controller/profile";
-import { authMiddleware } from "../middleware/auth";
+import { createCategory } from "../controller/draws";
 
 const router = new Router({
-  prefix: "/api/v1/profile",
+  prefix: "/api/v1/admin",
 });
-router.use(authMiddleware);
 
-router.get("/", profile.getProfile);
+router.get("/users", profile.getUsersByAdmin);
 
-// edit profile
-router.put("/", profile.editProfile);
-
-// get all users by admin
+router.post("/categories/add", createCategory);
 
 const routes = router.routes();
 const allowedMethods = router.allowedMethods({

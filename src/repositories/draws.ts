@@ -8,6 +8,7 @@ import { IDrawInfo } from "../models/draw-Info";
 const Draws = Models.draw;
 const DrawEntries = Models.drawEntries;
 const DrawInfo = Models.drawInfo;
+const DrawType = Models.drawType;
 
 export const createDraw = async (payload: IDraw) =>
   Draws.create(payload, { include: [{ model: DrawInfo, as: "drawInfo" }] });
@@ -42,4 +43,9 @@ export const getDrawsByStatus = async (status: string) => {
     include: [{ model: DrawInfo, as: "drawInfo" }],
   });
   return draws;
+};
+
+export const createCategory = async (payload: { type: string }) => {
+  console.log({ payload });
+  return await DrawType.create({ type: payload.type });
 };

@@ -82,3 +82,12 @@ export const getUserDraws = async (ctx: Context, next: () => void) => {
   ctx.state.data = { message: "Welcome to get User Draws" };
   next();
 };
+
+export const createCategory = async (ctx: Context, next: () => void) => {
+  const payload = {
+    type: ctx.request.body.name,
+  };
+
+  ctx.state.data = await drawService.createCategory(payload);
+  next();
+};

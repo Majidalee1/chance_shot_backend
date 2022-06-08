@@ -49,3 +49,6 @@ export const getDrawsByStatus = async (status: string) => {
   const draws = await drawRepo.getDrawsByStatus(status);
   return draws;
 };
+
+export const createCategory = async (payload: { type: string }) =>
+  await drawRepo.createCategory(payload);

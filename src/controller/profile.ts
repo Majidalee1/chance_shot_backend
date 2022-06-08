@@ -18,3 +18,8 @@ export const editProfile = async (ctx: Context, next: () => void) => {
   ctx.state.data = await profileService.editProfile(UserAttribs.id!, payload);
   next();
 };
+
+export const getUsersByAdmin = async (ctx: Context, next: () => void) => {
+  ctx.state.data = await profileService.getUsersByAdmin();
+  next();
+};

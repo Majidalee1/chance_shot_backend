@@ -27,6 +27,11 @@ router.get("/status/:status", getDrawsByStatus);
 router.get("/mine", getUserDraws);
 router.get("/mine/:id", getUserDrawsById);
 
+// add categories
+// category with tickets
+// registered users
+//
+
 const routes = router.routes();
 const allowedMethods = router.allowedMethods({
   methodNotAllowed: () => methodNotAllowed(),

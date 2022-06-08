@@ -15,3 +15,17 @@ export const editProfile = async (
 ) => {
   return Member.update(payload, { where: { id } });
 };
+
+export const getUsersByAdmin = async () =>
+  await Member.findAll({
+    include: [
+      {
+        model: Models.userRole,
+        as: "userRole",
+        required: true,
+        where: {
+          role: "user",
+        },
+      },
+    ],
+  });

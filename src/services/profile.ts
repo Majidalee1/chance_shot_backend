@@ -18,3 +18,5 @@ export const editProfile = async (
 
   return await profileRepo.editProfile(id, payload);
 };
+
+export const getUsersByAdmin = async () => await profileRepo.getUsersByAdmin();
