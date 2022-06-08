@@ -6,4 +6,7 @@ import auth from "./auth";
 import profile from "./profile";
 import draws from "./draws";
 import drawEntries from "./draw-entries";
-export default () => compose([auth(), profile(), draws(), drawEntries()]);
+import admin from "./admin";
+
+export default () =>
+  compose([auth(), profile(), draws(), drawEntries(), admin()]);
